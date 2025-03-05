@@ -10,6 +10,65 @@ import { ShopContext } from "../providers";
  */
 export default () => {
   const { shop, gadgetMetadata } = useContext(ShopContext);
+  
+  return (
+    <Page title="Customer Credits Management">
+      <Layout>
+        <Layout.Section>
+          <Card title="About This App">
+            <Card.Section>
+              <p>
+                This app helps you manage customer credit discounts based on customer metafields. 
+                You can define rules for converting customer credits into discount codes.
+              </p>
+            </Card.Section>
+          </Card>
+        </Layout.Section>
+        
+        <Layout.Section>
+          <Card title="How to Use">
+            <Card.Section title="1. Set Up Credit Settings">
+              <p>
+                Go to the <strong>Credit Settings</strong> page to define rules for converting
+                customer credits to discount codes. You'll need to specify:
+              </p>
+              <ul>
+                <li>The metafield that stores customer credits</li>
+                <li>The discount type and value to offer</li>
+                <li>Minimum credits required</li>
+              </ul>
+            </Card.Section>
+            
+            <Card.Section title="2. Connect with make.com">
+              <p>
+                In your make.com workflow, use the following API endpoint to generate a discount code:
+              </p>
+              <pre style={{ background: "#f4f6f8", padding: "10px", overflowX: "auto" }}>
+                {`POST ${process.env.GADGET_PUBLIC_APP_URL}/api/getDiscountCode
+                
+Body:
+{
+  "shopDomain": "your-shop.myshopify.com",
+  "customerId": "123456789",
+  "metafieldKey": "credits",
+  "metafieldNamespace": "customer"
+}
+                `}
+              </pre>
+            </Card.Section>
+            
+            <Card.Section title="3. Apply the Discount">
+              <p>
+                The API will return a discount code that can be used by the customer at checkout.
+                The discount value will be based on your settings, and the code will only work for 
+                the specific customer.
+              </p>
+            </Card.Section>
+          </Card>
+        </Layout.Section>
+      </Layout>
+    </Page>
+  );
 
   return (
     <Page title="Next steps">

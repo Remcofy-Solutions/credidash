@@ -9,7 +9,7 @@ export const settings: GadgetSettings = {
         apiVersion: "2024-10",
         enabledModels: ["shopifyAppSubscription"],
         type: "partner",
-        scopes: ["read_products"],
+        scopes: ["read_products", "read_customers", "write_discounts"],
       },
     },
   },

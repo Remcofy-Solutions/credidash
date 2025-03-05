@@ -43,6 +43,7 @@ export default () => {
       <Route path="/" element={<Layout />}>
         <Route path="/" index element={<Index />} />
         <Route path="/plans" element={<BillingPage />} />
+        <Route path="/credit-settings" element={<CreditSettingsPage />} /> {/* Added route for credit settings */}
         <Route path="*" element={<Error404 />} />
       </Route>
     )
@@ -56,14 +57,51 @@ export default () => {
 };
 
 function Layout() {
+  const { isAuthenticated, isLoading } = useGadget();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  if (isLoading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+          width: "100%",
+        }}
+      >
+        <Spinner accessibilityLabel="Loading..." size="large" />
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <Text>Not authenticated</Text>;
+  }
+
   return (
-    <GadgetProvider
-      type={AppType.Embedded}
-      shopifyApiKey={window.gadgetConfig.apiKeys.shopify}
-      api={api}
-    >
-      <AuthenticatedApp />
-    </GadgetProvider>
+    <ShopProvider>
+      <NavMenu
+        navigationLinks={[
+          {
+            label: "Home",
+            destination: "/",
+          },
+          {
+            label: "Credit Settings",
+            destination: "/credit-settings",
+          },
+          {
+            label: "Plans",
+            destination: "/plans",
+          },
+        ]}
+        matcher={(link) => link.destination === location.pathname}
+      />
+      <Outlet />
+    </ShopProvider>
   );
 }
 
@@ -92,12 +130,7 @@ function EmbeddedApp() {
   return (
     <ShopProvider>
       <Outlet />
-      <NavMenu>
-        <Link to="/" rel="home">
-          Dashboard
-        </Link>
-        <Link to="/plans">Plans</Link>
-      </NavMenu>
+      
     </ShopProvider>
   );
 }
@@ -108,6 +141,15 @@ function UnauthenticatedApp() {
       <Text variant="bodyMd" as="p">
         App can only be viewed in the Shopify Admin.
       </Text>
+    </Page>
+  );
+}
+
+// Placeholder for CreditSettingsPage component.  Replace with actual implementation.
+function CreditSettingsPage() {
+  return (
+    <Page title="Credit Settings">
+      <Text>Credit Settings Page Content</Text>
     </Page>
   );
 }

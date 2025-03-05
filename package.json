@@ -10,6 +10,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "ggt": "^1.4.1"
+    "ggt": "^1.4.1",
+    "uuid": "^11.1.0"
   }
 }
