@@ -1,0 +1,8 @@
+modules = ["nodejs-20", "web"]
+run = "ggt dev ./credidash --app=credidash --env=development"
+
+[nix]
+channel = "stable-24_05"
+
+[deployment]
+run = ["sh", "-c", "ggt dev ./credidash --app=credidash --env=development"]
